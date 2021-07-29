@@ -26,4 +26,8 @@ public abstract class Products {
     public static void deleteProduct(int id){
         Crud.delete(id);
     }
+
+    public static Producto getProductoById(int id){
+        return Crud.getProductoById(id);
+    }
 }

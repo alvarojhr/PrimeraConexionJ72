@@ -82,8 +82,26 @@ public abstract class Crud {
     }
 
     public static Producto getProductoById(int id){
-        Producto producto = null;
+            Producto producto= null;
+            ResultSet result = null;
 
-        return producto;
+            String sql = String.format("SELECT * FROM Productos where id=%d",id);
+
+            try {
+                result = connection.prepareStatement(sql).executeQuery();
+                producto = new Producto(result.getInt(1),result.getString(2),result.getInt(3),result.getDouble(4),result.getDouble(5));
+            } catch (SQLException e) {
+                System.out.println("CONNECTION| " + e);
+            } finally {
+                try {
+                    if (result != null) {
+                        result.close();
+                    }
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            return producto;
     }
 }

@@ -12,8 +12,9 @@ public class Main {
         Connection connection = Crud.setConnection(DbConnection.connect());
 
         Info.showProducts();
-        Info.newProduct();
-        Info.deleteProduct();
+        //Info.newProduct();
+        //Info.deleteProduct();
+        Crud.getProductoById(5);
 
         //Cerramos la conexion que creamos al iniciar el programa
         try {

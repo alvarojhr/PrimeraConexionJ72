@@ -39,6 +39,25 @@ public abstract class Info {
         showProducts();
         System.out.print("\n\nDigite el id del producto a actualizar: ");
         int id = sc.nextInt();
+        Producto producto = Products.getProductoById(id);
+        System.out.println("Para los valores que no desea modificar, oprima ENTER.");
+
+        System.out.println("Nombre actual: "+ producto.getNombre());
+        System.out.print("Nuevo nombre: ");
+        String nombre = sc.nextLine();
+        if(!nombre.isBlank()){
+            producto.setNombre(nombre);
+        }
+        System.out.println("Cantidad actual: "+ producto.getCantidad());
+        System.out.print("Nueva cantidad: ");
+        String cantidad = sc.next();
+        if(!nombre.isBlank()){
+            producto.setCantidad(Integer.parseInt(nombre));
+        }
+
+
+
+
 
 
     }
