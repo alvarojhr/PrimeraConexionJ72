@@ -22,4 +22,8 @@ public abstract class Products {
         producto.setValorVenta(valorVenta);
         return Crud.create(producto);
     }
+
+    public static void deleteProduct(int id){
+        Crud.delete(id);
+    }
 }

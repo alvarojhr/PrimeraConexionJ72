@@ -27,4 +27,20 @@ public abstract class Info {
         }
     }
 
+    public static void deleteProduct(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Digite el id del producto a eliminar: ");
+        int id = sc.nextInt();
+        Products.deleteProduct(id);
+    }
+
+    public static void updateProduct(){
+        Scanner sc = new Scanner(System.in);
+        showProducts();
+        System.out.print("\n\nDigite el id del producto a actualizar: ");
+        int id = sc.nextInt();
+
+
+    }
+
 }

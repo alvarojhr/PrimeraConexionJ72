@@ -9,7 +9,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class Crud {
-    private static final Connection connection = DbConnection.connect();
+    private static Connection connection;
+
+    public static Connection setConnection(Connection connection) {
+        Crud.connection = connection;
+        return  connection;
+    }
 
     public static ArrayList<Producto> read(){
 
@@ -36,7 +41,6 @@ public abstract class Crud {
                 if (result != null) {
                     result.close();
                 }
-                connection.close();
             } catch (SQLException e) {
                 System.out.println("CONNECTION| "+e);
             }
@@ -62,14 +66,24 @@ public abstract class Crud {
         } catch (SQLException e) {
             System.out.println("CONNECTION| "+e);
         }
-        finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                System.out.println("CONNECTION| "+e);
-            }
-        }
-
         return success;
+    }
+
+    public static void delete(int id){
+        PreparedStatement query = null;
+
+        try{
+            String sql = String.format("DELETE FROM Productos WHERE Id=%d",id);
+            query = connection.prepareStatement(sql);
+            query.execute();
+        } catch (SQLException e) {
+            System.out.println("CONNECTION| "+e);
+        }
+    }
+
+    public static Producto getProductoById(int id){
+        Producto producto = null;
+
+        return producto;
     }
 }
