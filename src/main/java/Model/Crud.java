@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public abstract class Crud {
     private static Connection connection;
@@ -98,10 +99,26 @@ public abstract class Crud {
                         result.close();
                     }
 
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+                } catch (SQLException e) {
+                    System.out.println("CONNECTION| "+e);
                 }
             }
             return producto;
+    }
+
+    public static boolean update(Producto producto) {
+        boolean success = false;
+
+        PreparedStatement query = null;
+        String sql = String.format(Locale.ROOT,"UPDATE Productos SET Nombre='%s', Cantidad=%d, CostoUnitario =%.2f, ValorVenta = %.2f WHERE Id = %d",
+                    producto.getNombre(),producto.getCantidad(),producto.getCostoUnitario(),producto.getValorVenta(),producto.getId());
+        try {
+            query = connection.prepareStatement(sql);
+            query.execute();
+            success = true;
+        } catch (SQLException e) {
+            System.out.println("CONNECTION| "+e);
+        }
+        return success;
     }
 }

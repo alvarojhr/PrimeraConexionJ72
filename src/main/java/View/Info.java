@@ -37,29 +37,32 @@ public abstract class Info {
     public static void updateProduct(){
         Scanner sc = new Scanner(System.in);
         showProducts();
-        System.out.print("\n\nDigite el id del producto a actualizar: ");
+        System.out.print("Digite el id del producto a actualizar: ");
         int id = sc.nextInt();
         Producto producto = Products.getProductoById(id);
         System.out.println("Para los valores que no desea modificar, oprima ENTER.");
 
         System.out.println("Nombre actual: "+ producto.getNombre());
         System.out.print("Nuevo nombre: ");
+        sc.nextLine();
         String nombre = sc.nextLine();
         if(!nombre.isBlank()){
             producto.setNombre(nombre);
         }
         System.out.println("Cantidad actual: "+ producto.getCantidad());
         System.out.print("Nueva cantidad: ");
-        String cantidad = sc.next();
-        if(!nombre.isBlank()){
-            producto.setCantidad(Integer.parseInt(nombre));
+        String cantidad = sc.nextLine();
+        if(!cantidad.isBlank()){
+            producto.setCantidad(Integer.parseInt(cantidad));
+        }
+        System.out.println("Costo unitario actual: "+ producto.getCostoUnitario());
+        System.out.print("Nueva costo unitario: ");
+        String costo = sc.nextLine();
+        if(!costo.isBlank()){
+            producto.setCostoUnitario(Double.parseDouble(costo));
         }
 
-
-
-
-
-
+        System.out.println(Products.updateProduct(producto)) ;
     }
 
 }

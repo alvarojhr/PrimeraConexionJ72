@@ -6,6 +6,8 @@ import Model.Models.Producto;
 import java.util.ArrayList;
 
 public abstract class Products {
+    private static final float utilidad = 1.5f;
+
     public static String readProducts(){
         String result = "";
         ArrayList<Producto> data = Crud.read();
@@ -18,8 +20,7 @@ public abstract class Products {
     }
 
     public static boolean createProduct(Producto producto){
-        double valorVenta = producto.getCostoUnitario()*1.5;
-        producto.setValorVenta(valorVenta);
+        calcularValorVenta(producto);
         return Crud.create(producto);
     }
 
@@ -29,5 +30,23 @@ public abstract class Products {
 
     public static Producto getProductoById(int id){
         return Crud.getProductoById(id);
+    }
+
+    public static String updateProduct(Producto producto) {
+        String output = "";
+        //Calcular el valor de venta basado en la utilidad y el costo unitario
+        calcularValorVenta(producto);
+
+        if (Crud.update(producto)){
+            output += "Actualización exitosa";
+        }else{
+            output += "Houston tenemos un problema";
+        }
+        return output;
+    }
+
+    private static void calcularValorVenta(Producto producto){
+        double valorVenta = producto.getCostoUnitario()*utilidad;
+        producto.setValorVenta(valorVenta);
     }
 }
