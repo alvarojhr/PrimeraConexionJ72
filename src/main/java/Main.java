@@ -1,9 +1,10 @@
 import Model.Crud;
 import Model.DbConnection;
-import View.Info;
+import View.Console.Info;
+import View.GUI.CreateProduct;
 
+import javax.swing.*;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main {
@@ -14,7 +15,10 @@ public class Main {
         //Info.showProducts();
         //Info.newProduct();
         //Info.deleteProduct();
-        Info.updateProduct();
+        //Info.updateProduct();
+
+        JFrame frame = new CreateProduct("Creacion de producto");
+        frame.setVisible(true);
 
         //Cerramos la conexion que creamos al iniciar el programa
         try {

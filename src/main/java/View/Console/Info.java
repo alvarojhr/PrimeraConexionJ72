@@ -1,4 +1,4 @@
-package View;
+package View.Console;
 
 import Controller.Products;
 import Model.Models.Producto;
