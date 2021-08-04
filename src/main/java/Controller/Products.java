@@ -19,6 +19,24 @@ public abstract class Products {
         return result;
     }
 
+    public static String[][] getProducts(){
+        //Obtenemos la información de los productos desde el Model como un ArrayList de instancias de Producto.
+        ArrayList<Producto> data = Crud.read();
+
+        String[][] result = new String[data.size()][5];
+        int contProducto = 0;
+
+        //Procesamiento para convertir el ArrayList de productos en una matriz de String con la información de los productos.
+        for (Producto producto:data) {
+            String[] vector = {String.valueOf(producto.getId()),producto.getNombre(),String.valueOf(producto.getCantidad()),
+                                String.valueOf(producto.getCostoUnitario()),String.valueOf(producto.getValorVenta())};
+            result[contProducto] = vector;
+            contProducto++;
+        }
+
+        return result;
+    }
+
     public static boolean createProduct(Producto producto){
         calcularValorVenta(producto);
         return Crud.create(producto);
