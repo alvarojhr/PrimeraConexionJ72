@@ -18,7 +18,9 @@ public class CreateProduct extends JFrame{
     private JButton cancelarButton;
     private JButton guardarButton;
     private JSpinner cantidadSpinner;
+    private Producto producto = new Producto();
 
+    private boolean isEditingProduct = false;
 
     public CreateProduct(String title){
         super(title);
@@ -29,13 +31,11 @@ public class CreateProduct extends JFrame{
         this.setIconImage(img.getImage());
         this.pack();
 
-
-        Producto producto = new Producto();
-
         guardarButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean success;
                 //Aca deberian ir las validaciones
                 String name = nameField.getText();
                 int cantidad =Integer.parseInt(cantidadSpinner.getValue().toString());
@@ -53,7 +53,15 @@ public class CreateProduct extends JFrame{
                     producto.setCantidad(cantidad);
                     producto.setCostoUnitario(costo);
 
-                    boolean success = Products.createProduct(producto);
+                    if(!isEditingProduct) {
+                        success = Products.createProduct(producto);
+                    }else{
+                        //Estamos editando un producto
+                        success = Products.isUpdatedProduct(producto);
+                        isEditingProduct = false;
+                        hideWindow();
+                    }
+
                     if(success){
                         nameField.setText("");
                         cantidadSpinner.setValue(0);
@@ -77,9 +85,23 @@ public class CreateProduct extends JFrame{
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                Home.setCreatingOpen(false);
+                hideWindow();
             }
         });
+    }
+
+    public void editarProducto(int id, String nombre, int cantidad, String costoUnitario){
+        nameField.setText(nombre);
+        cantidadSpinner.setValue(cantidad);
+        costoField.setText(costoUnitario);
+
+        producto.setId(id);
+
+        isEditingProduct = true;
+    }
+
+    private void hideWindow(){
+        dispose();
+        Home.setCreatingOpen(false);
     }
 }

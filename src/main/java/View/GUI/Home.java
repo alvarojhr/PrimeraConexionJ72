@@ -13,6 +13,8 @@ import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static java.lang.System.console;
+
 public class Home  extends JFrame{
     private JButton addButton;
     private JButton editarButton;
@@ -32,9 +34,6 @@ public class Home  extends JFrame{
         this.setContentPane(Principal);
         this.pack();
 
-
-
-
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,10 +50,6 @@ public class Home  extends JFrame{
             public void windowOpened(WindowEvent e) {
                 connection= Crud.setConnection(DbConnection.connect());
                 loadDataTable();
-
-                table1.getColumnModel().getColumn(0).setPreferredWidth(4);
-                table1.getColumnModel().getColumn(1).setPreferredWidth(120);
-                table1.getColumnModel().getColumn(2).setPreferredWidth(25);
             }
 
             @Override
@@ -76,16 +71,57 @@ public class Home  extends JFrame{
                 loadDataTable();
             }
         });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table1.getSelectedRow();
+                if(row >=0){
+                    int idRow = Integer.parseInt(table1.getModel().getValueAt(row,0).toString());
+                    Products.deleteProduct(idRow);
+                    loadDataTable();
+                }
+            }
+        });
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table1.getSelectedRow();
+                if(row >=0){
+                    if(!creatingOpen) {
+                        CreateProduct frame = new CreateProduct("Creacion de producto");
+                        frame.setVisible(true);
+
+                        creatingOpen = true;
+
+                        int idRow = Integer.parseInt(table1.getModel().getValueAt(row,0).toString());
+                        String nombre = table1.getModel().getValueAt(row,1).toString();
+                        int cantidad = Integer.parseInt(table1.getModel().getValueAt(row,2).toString());
+                        String costo = table1.getModel().getValueAt(row,3).toString();
+
+                        frame.editarProducto(idRow, nombre, cantidad, costo);
+                    }
+                }
+            }
+        });
     }
 
     public static void setCreatingOpen(boolean creatingOpen) {
         Home.creatingOpen = creatingOpen;
     }
 
-    private void loadDataTable() {
+    public void loadDataTable() {
         String[][] data = Products.getProducts();
         DefaultTableModel dtm = new DefaultTableModel(data,columnas);
 
         table1.setModel(dtm);
+        setColumnsWidth();
+    }
+
+    private void setColumnsWidth(){
+        table1.getColumnModel().getColumn(0).setPreferredWidth(4);
+        table1.getColumnModel().getColumn(1).setPreferredWidth(120);
+        table1.getColumnModel().getColumn(2).setPreferredWidth(25);
     }
 }

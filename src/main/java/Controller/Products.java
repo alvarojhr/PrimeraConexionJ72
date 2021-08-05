@@ -63,6 +63,12 @@ public abstract class Products {
         return output;
     }
 
+    public static boolean isUpdatedProduct(Producto producto) {
+        //Calcular el valor de venta basado en la utilidad y el costo unitario
+        calcularValorVenta(producto);
+        return Crud.update(producto);
+    }
+
     private static void calcularValorVenta(Producto producto){
         double valorVenta = producto.getCostoUnitario()*utilidad;
         producto.setValorVenta(valorVenta);
